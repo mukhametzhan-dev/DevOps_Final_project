@@ -3,13 +3,6 @@ import uuid
 from pydantic import EmailStr
 from sqlmodel import Field, Relationship, SQLModel
 
-from sqlmodel import SQLModel, create_engine
-
-DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/postgres"
-engine = create_engine(DATABASE_URL)
-
-# создаём все таблицы
-SQLModel.metadata.create_all(engine)
 
 # Shared properties
 class UserBase(SQLModel):

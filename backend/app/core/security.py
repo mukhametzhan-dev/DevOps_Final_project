@@ -5,7 +5,7 @@ import os
 import jwt
 from passlib.context import CryptContext
 
-from backend.app.core.config import settings
+from app.core.config import settings
 
 # Определяем количество итераций для тестов
 # Если мы в тестовой среде (проверяем, что pytest запускает тесты), используем 1 итерацию.

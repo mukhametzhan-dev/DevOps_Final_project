@@ -9,10 +9,10 @@ from sqlmodel import Session, SQLModel, create_engine, delete
 # (Оставляем, чтобы настройки PROJECT_NAME и SECRET_KEY загружались)
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '.env.test'))
 
-from backend.app.core.config import settings
-from backend.app.core.db import init_db  # <-- Убрали импорт 'engine' из db.py
-from backend.app.main import app
-from backend.app.models import Item, User
+from app.core.config import settings
+from app.core.db import init_db  # <-- Убрали импорт 'engine' из db.py
+from app.main import app
+from app.models import Item, User
 from tests.utils.user import authentication_token_from_email
 from tests.utils.utils import get_superuser_token_headers
 
@@ -32,7 +32,7 @@ def engine() -> Generator:
     
     # Переопределяем engine приложения на тестовый engine для всех зависимостей
     # (Это важно, чтобы весь код, который вызывает engine, использовал тестовый)
-    from backend.app.core.db import engine as main_app_engine
+    from app.core.db import engine as main_app_engine
     app.dependency_overrides[main_app_engine] = lambda: test_engine
     
     yield test_engine
