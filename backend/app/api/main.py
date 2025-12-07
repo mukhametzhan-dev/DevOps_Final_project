@@ -12,3 +12,7 @@ api_router.include_router(items.router)
 
 if settings.ENVIRONMENT == "local":
     api_router.include_router(private.router)
+
+@api_router.get("/")
+def read_root():
+    return {"status": "ok"}
