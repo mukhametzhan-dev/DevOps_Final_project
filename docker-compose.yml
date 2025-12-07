@@ -22,15 +22,18 @@ services:
       db:
         condition: service_healthy
     environment:
-     PROJECT_NAME: "DevOpsFinalProject"
-     FIRST_SUPERUSER: "admin@example.com"
-     FIRST_SUPERUSER_PASSWORD: "admin123"
-     POSTGRES_SERVER: db
-     POSTGRES_PORT: 5432
-     POSTGRES_USER: postgres
-     POSTGRES_PASSWORD: postgres
-     POSTGRES_DB: app
-     BACKEND_CORS_ORIGINS: http://localhost:3000
+      PROJECT_NAME: "DevOpsFinalProject"
+      FIRST_SUPERUSER: "admin@example.com"
+      FIRST_SUPERUSER_PASSWORD: "admin123"
+      POSTGRES_SERVER: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app
+      BACKEND_CORS_ORIGINS: http://localhost:3000
+    command: >
+      bash -c "alembic upgrade head &&
+      uvicorn app.main:app --host 0.0.0.0 --port 8000"
     ports:
       - "8000:8000"
 
