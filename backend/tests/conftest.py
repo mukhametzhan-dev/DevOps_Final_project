@@ -71,17 +71,23 @@ def db(session_fixture: Session) -> None:
 
 # 4. ФИКСТУРА CLIENT (ТЕСТОВЫЙ КЛИЕНТ)
 @pytest.fixture(scope="module")
-async def client(session: Session) -> AsyncClient:
+async def client(session_fixture: Session) -> AsyncClient:
     async with AsyncClient(app=app, base_url="http://test") as ac:
         yield ac
     
     # Очистка данных после каждого модуля тестов (или всех тестов, в зависимости от scope)
-    with session:
+    with session_fixture:
         statement = delete(Item)
         session.exec(statement)
         statement = delete(User)
         session.exec(statement)
         session.commit()
+
+# conftest.py (Добавить внизу)
+@pytest.fixture(scope="function")
+def session(session_fixture: Session) -> Generator[Session, None, None]:
+    """Фикстура-псевдоним для совместимости со старыми тестами, которые запрашивают 'session'."""
+    yield session_fixture
 
 # --- ОСТАВШИЕСЯ ФИКСТУРЫ БЕЗ ИЗМЕНЕНИЙ ---
 
