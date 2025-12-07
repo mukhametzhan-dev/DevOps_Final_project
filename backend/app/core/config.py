@@ -1,3 +1,8 @@
+import os
+print("DEBUG: CWD =", os.getcwd())
+print("DEBUG: Looking for .env:", os.path.exists(".env"))
+print("DEBUG: env_file path check:", os.path.exists("../../.env"))
+
 import secrets
 import warnings
 from typing import Annotated, Any, Literal
@@ -26,7 +31,7 @@ def parse_cors(v: Any) -> list[str] | str:
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         # Use top level .env file (one level above ./backend/)
-        env_file="../.env",
+        env_file=".env.test",
         env_ignore_empty=True,
         extra="ignore",
     )
@@ -52,9 +57,9 @@ class Settings(BaseSettings):
     SENTRY_DSN: HttpUrl | None = None
     POSTGRES_SERVER: str
     POSTGRES_PORT: int = 5432
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str = ""
-    POSTGRES_DB: str = ""
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_PASSWORD: str = "postgres"
+    POSTGRES_DB: str = "postgres"
 
     @computed_field  # type: ignore[prop-decorator]
     @property
