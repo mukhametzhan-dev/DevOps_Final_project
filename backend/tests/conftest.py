@@ -2,6 +2,7 @@ from collections.abc import Generator
 import os
 import pytest
 from dotenv import load_dotenv
+from fastapi.testclient import TestClient
 from httpx import AsyncClient # <-- ДОБАВИТЬ
 from sqlmodel import Session, SQLModel, create_engine, delete
 

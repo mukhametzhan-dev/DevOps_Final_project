@@ -9,7 +9,14 @@ def client():
     with TestClient(app) as client:
         yield client
 
-# Тест 1: Проверка публичного эндпоинта (200 OK)
+# Тест 1: Проверка health check эндпоинта
+def test_health_check(client: TestClient):
+    """Тестирует health check endpoint для мониторинга."""
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json() == {"status": "healthy"}
+
+# Тест 2: Проверка публичного эндпоинта (200 OK)
 def test_get_api_status(client: TestClient):
     response = client.get("/api/v1/")
     assert response.status_code == 200
