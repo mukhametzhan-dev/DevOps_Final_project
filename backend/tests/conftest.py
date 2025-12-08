@@ -10,7 +10,8 @@ from sqlmodel.pool import StaticPool
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '.env.test'))
 
 from app.core.config import settings
-from app.core.db import get_session
+from app.core.db import init_db
+from app.api.deps import get_db
 from app.main import app
 from tests.utils.user import authentication_token_from_email
 from tests.utils.utils import get_superuser_token_headers
@@ -32,6 +33,8 @@ def session_fixture() -> Generator[Session, None, None]:
     SQLModel.metadata.create_all(engine)
     
     with Session(engine) as session:
+        # Initialize database with superuser for tests
+        init_db(session)
         yield session
 
 
@@ -40,10 +43,10 @@ def client_fixture(session: Session) -> Generator[TestClient, None, None]:
     """
     Create a test client that uses the test database session.
     """
-    def get_session_override():
+    def get_db_override():
         return session
 
-    app.dependency_overrides[get_session] = get_session_override
+    app.dependency_overrides[get_db] = get_db_override
     
     with TestClient(app) as client:
         yield client
