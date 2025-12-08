@@ -32,3 +32,9 @@ if settings.all_cors_origins:
     )
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+
+@app.get("/health")
+def health_check():
+    """Health check endpoint for container orchestration and monitoring."""
+    return {"status": "healthy"}
