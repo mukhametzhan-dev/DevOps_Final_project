@@ -1,3 +1,5 @@
+from collections.abc import Generator
+
 from sqlmodel import Session, create_engine, select
 
 from app import crud
@@ -5,6 +7,14 @@ from app.core.config import settings
 from app.models import User, UserCreate
 
 engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URI))
+
+
+def get_session() -> Generator[Session, None, None]:
+    """
+    Dependency function to get database session.
+    """
+    with Session(engine) as session:
+        yield session
 
 
 # make sure all SQLModel models are imported (app.models) before initializing DB
